@@ -36,15 +36,11 @@ function togglePractice(on) {
   } else {
     hideButtons();
     var endTime = Date.now();
-    var timeDiff = Math.round((endTime - startTime) / 60000);
+    var timeDiff = (endTime - startTime) / 60000;
     console.log('Practice time:', timeDiff);
-    if (timeDiff > 0.5) {
      var user = prompt('Enter your name:', 'Milo');
      writeToDB(user, timeDiff, new Date().toISOString());
-    } else {
-      console.log('Practice time too short');
-      document.getElementById('file-content').textContent += 'Practice time too short\n';
-    }
+
     button.textContent = 'Start practice';
     button.removeEventListener('click', () => togglePractice(0));
     button.addEventListener('click', () => togglePractice(1));
