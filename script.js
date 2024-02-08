@@ -63,7 +63,7 @@ function showButtons() {
 }
 
 function writeToDB(user, duration, date) {
-  fetch('/WriteDB', {
+  fetch('http://leoli.local:3000/WriteDB', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
