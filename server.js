@@ -9,7 +9,8 @@ app.use(cors());
 var connection = mysql.createConnection({
     host: 'localhost',
     user: 'sql-svc',
-    password: 'violin'
+    password: 'violin',
+    multipleStatements: true
 });
 
 connection.connect(function(err) {
@@ -24,10 +25,10 @@ app.post('/WriteDB', (req, res) => {
     const duration = req.body.duration;
     const date = req.body.date;
     const user = req.body.user;
-    var sql = `USE practice_records; INSERT INTO practices (user, date, duration) VALUES (${user}, ${date}, ${duration})`;
-    connection.query(sql, function(err, result) {
+    var sql = "USE practice_records; INSERT INTO practices (user, date, duration) VALUES (?, ?, ?)";
+    connection.query(sql, [user, date, duration], function(err, result) {
         if (err) throw err;
-        console.log('1 record inserted');
+        console.log(result);
     });
 });
 

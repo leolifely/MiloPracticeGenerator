@@ -1,4 +1,13 @@
 function randomLine(fileName, numLines) {
+  if (fileName === 'scales.txt') {
+    document.getElementById('3-scales-button').style.display = 'none';
+  } else if (fileName === 'reviews_book1.txt') {
+    document.getElementById('2-book1-review-button').style.display = 'none';
+  } else if (fileName === 'reviews_book2.txt') {
+    document.getElementById('2-book2-review-button').style.display = 'none';
+  } else if (fileName === 'reviews_book3.txt') {
+    document.getElementById('2-book3-review-button').style.display = 'none';
+  }
   fetch(fileName).then(response => {
     if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -40,9 +49,12 @@ function togglePractice(on) {
     var timeDiff = endTime - startTime;
     console.log('Practice time:', (timeDiff * 1000).toString());
     document.getElementById('file-content').textContent += 'Practice time: ' + (timeDiff / 1000).toString() + ' seconds\n';
-    var user = prompt('Enter your name:', 'Milo');
-    writeToDB(user, timeDiff, new Date().toISOString());
-
+    if (timeDiff > 100_000) {
+      var user = prompt('Enter your name:', 'Milo');
+      writeToDB(user, timeDiff, new Date().toISOString().slice(0, 19).replace('T', ' '));
+    } else {
+      document.getElementById('file-content').textContent += 'Practice time too short.\n';
+    }
     button.textContent = 'Start practice';
     button.removeEventListener('click', endPractice);
     button.addEventListener('click', startPractice);
