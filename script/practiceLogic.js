@@ -17,7 +17,7 @@ function togglePractice(on) {
         var user = prompt('Enter your name:', 'Milo');
         writeToDB(user, timeDiff, new Date().toISOString().slice(0, 19).replace('T', ' '));
       } else {
-        document.getElementById('file-content').textContent += 'Practice time too short.\n';
+        document.getElementById('file-content').textContent += 'Practice time too short to write to database.\n';
       }
       button.textContent = 'Start practice';
       button.removeEventListener('click', endPractice);
