@@ -15,13 +15,15 @@ function randomLine(fileName, numLines) {
       return response.text();
     }).then(data => {
       const lines = data.split('\n');
-      let lastLine = -1;
+      let lastLine = [];
       for (let i = 0; i < numLines; i++) {
         const randomIndex = Math.floor(Math.random() * lines.length);
-        if (randomIndex === lastLine) {
+        
+        if (lastLine.includes(randomIndex)) {
           i--;
           continue;
         }
+
         lastLine = randomIndex;
         console.log('chosen line:', lines[randomIndex]);
         document.getElementById('file-content').textContent += lines[randomIndex] + '\n';
