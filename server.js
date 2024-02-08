@@ -24,7 +24,7 @@ app.post('/WriteDB', (req, res) => {
     const duration = req.body.duration;
     const date = req.body.date;
     const user = req.body.user;
-    var sql = `USE practices; INSERT INTO practice (user, date, duration) VALUES (${user}, ${date}, ${duration})`;
+    var sql = `USE practice_records; INSERT INTO practices (user, date, duration) VALUES (${user}, ${date}, ${duration})`;
     connection.query(sql, function(err, result) {
         if (err) throw err;
         console.log('1 record inserted');

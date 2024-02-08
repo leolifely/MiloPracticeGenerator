@@ -31,16 +31,17 @@ function togglePractice(on) {
     showButtons();
     button.removeEventListener('click', startPractice);
     button.addEventListener('click', endPractice);
-    startTime = Date.now();
+    startTime = new Date().getTime();
     console.log('Practice started at:', startTime);
     button.textContent = 'End practice';
   } else {
     hideButtons();
-    var endTime = Date.now();
-    var timeDiff = (endTime - startTime) / 1000;
-    console.log('Practice time:', timeDiff);
-     var user = prompt('Enter your name:', 'Milo');
-     writeToDB(user, timeDiff, new Date().toISOString());
+    var endTime = new Date().getTime();
+    var timeDiff = endTime - startTime;
+    console.log('Practice time:', (timeDiff * 1000).toString());
+    document.getElementById('file-content').textContent += 'Practice time: ' + (timeDiff / 1000).toString() + ' seconds\n';
+    var user = prompt('Enter your name:', 'Milo');
+    writeToDB(user, timeDiff, new Date().toISOString());
 
     button.textContent = 'Start practice';
     button.removeEventListener('click', endPractice);
