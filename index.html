@@ -8,14 +8,20 @@
     </head>
     <body>  
         <h1>Milo Violin Machine</h1>
-        <p1>The all new, innovative Milo practice solution. Designed by Leo Lifely.</p1>
-        <button id="start-practice-button"><b>Start Practice</b></button>
-        <button id="3-scales-button">3 Random Scales</button>
-        <button id="2-book1-review-button">2 Random Reviews from Book 1</button>
-        <button id="2-book2-review-button">2 Random Reviews from Book 2</button>
-        <button id="2-book3-review-button">2 Random Reviews from Book 3</button>
-
-        <pre id="file-content"></pre>
+        <div class="centerh">
+        <button class="button button-practice-data" id="get-practice-data-button">Get Practice Data</button>
+        <button class="button button-start-practice" id="start-practice-button">Start Practice</button>
+        </div>
+        <br><br>
+        <div class="centerp">The all new, innovative Milo practice solution. Designed by Leo Lifely.</div>
+        
+        <div class="centerh">
+        <button class="button" id="3-scales-button">3 Random Scales</button>
+        <button class="button" id="2-book1-review-button">2 Random Reviews from Book 1</button>
+        <button class="button" id="2-book2-review-button">2 Random Reviews from Book 2</button>
+        <button class="button" id="2-book3-review-button">2 Random Reviews from Book 3</button>
+        </div>
+        <pre class="centerp" id="file-content"></pre>
 
         <script src="script/fileLogic.js"></script>
         <script src="script/practiceLogic.js"></script>

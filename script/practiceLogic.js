@@ -15,7 +15,7 @@ function togglePractice(on) {
       document.getElementById('file-content').textContent += 'Practice time: ' + (timeDiff / 1000).toString() + ' seconds\n';
       if (timeDiff > 100_000) {
         var user = prompt('Enter your name:', 'Milo');
-        writeToDB(user, timeDiff, new Date().toISOString().slice(0, 19).replace('T', ' '));
+        writeDB(user, timeDiff, new Date().toISOString().slice(0, 19).replace('T', ' '));
       } else {
         document.getElementById('file-content').textContent += 'Practice time too short to write to database.\n';
       }

@@ -21,6 +21,14 @@ function showButtons() {
 
 }
 
+function disableButton(button) {
+  button.disabled = true;
+}
+
+function enableButton(button) {
+  button.disabled = false;
+}
+
 
 
 hideButtons();
@@ -31,3 +39,7 @@ document.getElementById('3-scales-button').addEventListener('click', () => rando
 document.getElementById('2-book1-review-button').addEventListener('click', () => randomLine('reviews_book1.txt', 2));
 document.getElementById('2-book2-review-button').addEventListener('click', () => randomLine('reviews_book2.txt', 2));
 document.getElementById('2-book3-review-button').addEventListener('click', () => randomLine('reviews_book3.txt', 2));
+
+disableButton(document.getElementById('2-book1-review-button'));
+disableButton(document.getElementById('2-book2-review-button'));
+disableButton(document.getElementById('2-book3-review-button'));
