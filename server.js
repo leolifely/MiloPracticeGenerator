@@ -51,11 +51,11 @@ app.post('/SignUp', (req, res) => {
     console.log("Received POST request on /SignUp, user: ", req.body.user);
     const username = req.body.user;
     const password = req.body.password;
-
+    let sql;
     bcrypt
         .hash(password, saltRounds)
         .then((hash) => {
-            var sql = "INSERT INTO users (username, password) VALUES (?, ?)";
+            sql = "INSERT INTO users (username, password) VALUES (?, ?)";
         })
         .catch(err => console.error(err.message));
 
