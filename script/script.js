@@ -38,7 +38,7 @@ function enableButton(button) {
 
 hideButtons();
 
-hideForm(signupForm);
+
 
 startButton.addEventListener('click', startPractice);
 signupButton.addEventListener('click', () => showForm(signupForm));

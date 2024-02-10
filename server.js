@@ -27,13 +27,25 @@ app.post('/WritePractices', (req, res) => {
     console.log("Received POST request on /WriteDB, user: ", req.body.id)
     const duration = req.body.duration;
     const date = req.body.date;
-    const id = req.body.id;
-    var sql = "INSERT INTO practices (user_id, date, duration) VALUES (?, ?, ?)";
-    connection.query(sql, [id, date, duration], function(err, result) {
-        if (err) throw err;
-        console.log(result);
-    });
-    res.sendStatus(200);
+    const user = req.body.user;
+    const password = req.body.password;
+    if (validateUser(password, user)) {
+        let id = connection.query("SELECT id FROM users WHERE username = ?", [user], function(err, result) {
+            if (err) throw err;
+            console.log(result);
+            return result[0].id;
+        });
+
+        var sql = "INSERT INTO practices (user_id, date, duration) VALUES (?, ?, ?)";
+        connection.query(sql, [id, date, duration], function(err, result) {
+            if (err) throw err;
+            console.log(result);
+        });
+        res.sendStatus(200);
+    }
+    else {
+        res.sendStatus(403);
+    }
 });
 
 app.post('/ReadPractices', (req, res) => {
@@ -67,3 +79,19 @@ app.post('/SignUp', (req, res) => {
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 });
+
+function validateUser(password, user) {
+    let sql = "SELECT password FROM users WHERE username = ?";
+    connection.query(sql, [user], function(err, result) {
+        if (err) throw err;
+        console.log(result);
+        return bcrypt
+            .compare(password, result[0].password)
+            .then(res => {
+                return res;
+            }).catch(err => {
+                console.error(err);
+                return false;
+            });
+    });
+}

@@ -1,13 +1,15 @@
-function writePractices(id, password, duration, date) {
+function writePractices(username, password, duration, date) {
     fetch('http://leoli.local:3000/WritePractices', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ id: id, password: password, duration: duration, date: date})
+      body: JSON.stringify({ username: username, password: password, duration: duration, date: date})
     }).then(response => {
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
+      } else if (response.status === 403) {
+        alert('Invalid username or password');
       }
       return response.text();
     }).then(data => {
