@@ -51,19 +51,16 @@ app.post('/SignUp', (req, res) => {
     console.log("Received POST request on /SignUp, user: ", req.body.user);
     const username = req.body.user;
     const password = req.body.password;
-    let sql;
-    let hash;
+
     bcrypt
         .hash(password, saltRounds)
-        .then((hasha) => {
-            hash = hasha;
-            sql = "INSERT INTO users (username, password) VALUES (?, ?)";
-        })
-        .catch(err => console.error(err.message));
-
-    connection.query(sql, [username, hash], function(err, result) {
-        if (err) throw err;
-        console.log(result);
+        .then((hash) => {
+            let sql = "INSERT INTO users (username, password) VALUES (?, ?)";
+            connection.query(sql, [username, hash], function(err, result) {
+                if (err) throw err;
+                console.log(result);
+            
+        });
     });
     res.sendStatus(200);
 });
