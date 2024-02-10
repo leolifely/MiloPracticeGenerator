@@ -1,10 +1,10 @@
-function writeDB(user, duration, date) {
-    fetch('http://leoli.local:3000/WriteDB', {
+function writePractices(id, password, duration, date) {
+    fetch('http://leoli.local:3000/WritePractices', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ user: user, duration: duration, date: date})
+      body: JSON.stringify({ id: id, password: password, duration: duration, date: date})
     }).then(response => {
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -17,13 +17,13 @@ function writeDB(user, duration, date) {
     });
   }
 
-function readDB(user) {
-    fetch('http://leoli.local:3000/ReadDB', {
+function readPractices(id, password) {
+    fetch('http://leoli.local:3000/ReadPractices', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ user: user})
+      body: JSON.stringify({ user: id, password: password})
     }).then(response => {
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -31,10 +31,29 @@ function readDB(user) {
       return response.json();
     }).then(data => {
       console.log(data);
-      document.getElementById('file-content').textContent += 'Practice records for ' + user + ':\n';
+      document.getElementById('file-content').textContent += 'Practice records for ' + id + ':\n';
       for (let i = 0; i < data.length; i++) {
         document.getElementById('file-content').textContent += 'Date: ' + data[i].date + ', Duration: ' + data[i].duration + 'ms\n';
       }
+    }).catch(error => {
+      console.error(error);
+    });
+}
+
+function signUp(username, password) {
+    fetch('http://leoli.local:3000/SignUp', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ user: username, password: password})
+    }).then(response => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      return response.text();
+    }).then(data => {
+      console.log(data);
     }).catch(error => {
       console.error(error);
     });

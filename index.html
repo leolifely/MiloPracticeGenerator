@@ -11,18 +11,45 @@
         <div class="centerh">
         <button class="button button-practice-data" id="get-practice-data-button">Get Practice Data</button>
         <button class="button button-start-practice" id="start-practice-button">Start Practice</button>
+        <button class="button button-signup" id="signup-button">Sign Up</button>
         </div>
-        <br><br>
-        <div class="centerp">The all new, innovative Milo practice solution. Designed by Leo Lifely.</div>
-        
-        <div class="centerh">
-        <button class="button" id="3-scales-button">3 Random Scales</button>
-        <button class="button" id="2-book1-review-button">2 Random Reviews from Book 1</button>
-        <button class="button" id="2-book2-review-button">2 Random Reviews from Book 2</button>
-        <button class="button" id="2-book3-review-button">2 Random Reviews from Book 3</button>
-        </div>
-        <pre class="centerp" id="file-content"></pre>
 
+        <div class="centerp">The all new, innovative Milo practice solution. Designed by Leo Lifely.</div>
+
+        <div class="centerh">
+            <button class="button" id="3-scales-button">3 Random Scales</button>
+            <button class="button" id="2-book1-review-button">2 Random Reviews from Book 1</button>
+            <button class="button" id="2-book2-review-button">2 Random Reviews from Book 2</button>
+            <button class="button" id="2-book3-review-button">2 Random Reviews from Book 3</button>
+            </div>
+            <pre class="centerp" id="file-content"></pre>
+
+        <div class="form signup>" id="signup-form">
+            <div class="form-content">
+                <header>Sign Up</header>
+                <form action="#">
+                    <div class="field input-field">
+                        <input type="text" placeholder="Username" id="username" required>
+                    </div>
+
+                    <div class="field input-field">
+                        <input type="password" placeholder="Password" id="password" required>
+                    </div>
+
+                    <div class="field input-field">
+                        <input type="password" placeholder="Confirm Password" id="confirm-password" required>
+                    </div>
+
+                    <div class="field button-field">
+                        <button>Sign Up</button>
+                </form>
+            </div>
+        </div>
+
+        
+        
+        <script src="script/variables.js"></script>
+        <script src="script/signUp.js"></script>
         <script src="script/fileLogic.js"></script>
         <script src="script/practiceLogic.js"></script>
         <script src="script/sqlCommunication.js"></script>

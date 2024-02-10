@@ -1,7 +1,9 @@
 const express = require('express');
+const bcrypt = require('bcrypt');
 const mysql = require('mysql');
 const cors = require('cors');
 
+const saltRounds = 10;
 const app = express();
 const port = 3000;
 app.use(cors());
@@ -21,29 +23,48 @@ connection.connect(function(err) {
 
 app.use(express.json());
 
-app.post('/WriteDB', (req, res) => {
-    console.log("Received POST request on /WriteDB, user: ", req.body.user)
+app.post('/WritePractices', (req, res) => {
+    console.log("Received POST request on /WriteDB, user: ", req.body.id)
     const duration = req.body.duration;
     const date = req.body.date;
-    const user = req.body.user;
-    var sql = "INSERT INTO practices (user, date, duration) VALUES (?, ?, ?)";
-    connection.query(sql, [user, date, duration], function(err, result) {
+    const id = req.body.id;
+    var sql = "INSERT INTO practices (user_id, date, duration) VALUES (?, ?, ?)";
+    connection.query(sql, [id, date, duration], function(err, result) {
         if (err) throw err;
         console.log(result);
     });
+    res.sendStatus(200);
 });
 
-app.post('/ReadDB', (req, res) => {
-    console.log("Received POST request on /ReadDB, user: ", req.body.user)
-    const user = req.body.user;
-    var sql = "SELECT * FROM practices WHERE user = ?";
-    connection.query(sql, [user], function(err, result) {
+app.post('/ReadPractices', (req, res) => {
+    console.log("Received POST request on /ReadPractices, user: ", req.body.id)
+    const id = req.body.id;
+    var sql = "SELECT * FROM practices WHERE user_id = ?";
+    connection.query(sql, [id], function(err, result) {
         if (err) throw err;
         console.log(result);
         res.json(result);
     });
 });
 
+app.post('/SignUp', (req, res) => {
+    console.log("Received POST request on /SignUp, user: ", req.body.user);
+    const username = req.body.user;
+    const password = req.body.password;
+
+    bcrypt
+        .hash(password, saltRounds)
+        .then((hash) => {
+            var sql = "INSERT INTO users (username, password) VALUES (?, ?)";
+        })
+        .catch(err => console.error(err.message));
+
+    connection.query(sql, [username, hash], function(err, result) {
+        if (err) throw err;
+        console.log(result);
+    });
+    res.sendStatus(200);
+});
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 });
