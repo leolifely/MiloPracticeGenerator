@@ -2,11 +2,11 @@ function togglePractice(on) {
   
     if (on) {
       showButtons();
-      button.removeEventListener('click', startPractice);
-      button.addEventListener('click', endPractice);
+      startButton.removeEventListener('click', startPractice);
+      startButton.addEventListener('click', endPractice);
       startTime = new Date().getTime();
       console.log('Practice started at:', startTime);
-      button.textContent = 'End practice';
+      startButton.textContent = 'End practice';
     } else {
       hideButtons();
       var endTime = new Date().getTime();
@@ -20,9 +20,9 @@ function togglePractice(on) {
       } else {
         document.getElementById('file-content').textContent += 'Practice time too short to write to database.\n';
       }
-      button.textContent = 'Start practice';
-      button.removeEventListener('click', endPractice);
-      button.addEventListener('click', startPractice);
+      startButton.textContent = 'Start practice';
+      startButton.removeEventListener('click', endPractice);
+      startButton.addEventListener('click', startPractice);
     }
   }
 
