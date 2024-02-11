@@ -13,7 +13,7 @@ function togglePractice(on) {
       var timeDiff = endTime - startTime;
       console.log('Practice time:', (timeDiff * 1000).toString());
       document.getElementById('file-content').textContent += 'Practice time: ' + (timeDiff / 1000).toString() + ' seconds\n';
-      if (timeDiff > 100) { //REMEMBER TO CHANGE THIS BACK TO 100.000ms
+      if (timeDiff > 100_000) { 
         showForm(loginForm);
         getDetails().then(([username, password]) => {
           writePractices(username, password, timeDiff, new Date().toISOString().slice(0, 19).replace('T', ' '));
