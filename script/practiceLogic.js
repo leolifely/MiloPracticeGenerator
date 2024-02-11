@@ -1,5 +1,3 @@
-const { get } = require("http");
-
 function togglePractice(on) {
   
     if (on) {

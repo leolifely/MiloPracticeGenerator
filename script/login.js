@@ -5,7 +5,7 @@ function getDetails() {
             var username = document.getElementById('login-username').value;
             var password = document.getElementById('login-password').value;
             hideForm(loginForm);
-            resolve [username, password];
+            resolve([username, password]);
         });
     });
 }
