@@ -25,18 +25,19 @@ app.use(express.json());
 
 app.post('/WritePractices', (req, res) => {
     console.log("Received POST request on /WriteDB, user: ", req.body.username)
+    const instument = req.body.instument;
     const duration = req.body.duration;
     const date = req.body.date;
     const user = req.body.username;
     const password = req.body.password;
     validateUser(password, user).then((result) => {
         if (result) {
-            var sql = "INSERT INTO practices (user_id, date, duration) VALUES (?, ?, ?)";
+            var sql = "INSERT INTO practices (user_id, instrument, date, duration) VALUES (?, ?, ?, ?)";
             connection.query("SELECT id FROM users WHERE username = ?", [user], function(err, result) {
                 if (err) throw err;
                 console.log(result);
                 const id = result[0].id;
-                connection.query(sql, [id, date, duration], function(err, result) {
+                connection.query(sql, [id, instument, date, duration], function(err, result) {
                     if (err) throw err;
                     console.log(result);
                 });

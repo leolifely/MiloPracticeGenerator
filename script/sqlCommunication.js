@@ -1,10 +1,10 @@
-function writePractices(username, password, duration, date) {
+function writePractices(username, password, instument, duration, date) {
     fetch('http://leoli.local:3000/WritePractices', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ username: username, password: password, duration: duration, date: date})
+      body: JSON.stringify({ username: username, password: password, instument: instument, duration: duration, date: date})
     }).then(response => {
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -35,7 +35,7 @@ function readPractices(username, password) {
       console.log(data);
       document.getElementById('file-content').textContent += 'Practice records for ' + username + ':\n';
       for (let i = 0; i < data.length; i++) {
-        document.getElementById('file-content').textContent += 'Date: ' + data[i].date.slice(0, 19).replace('T', ' ').split(' ')[0] + ', Duration: ' + formatTime(data[i].duration)+ '\n';
+        document.getElementById('file-content').textContent += 'Instrument: ' + data[i].instument + ', Date: ' + data[i].date.slice(0, 19).replace('T', ' ').split(' ')[0] + ', Duration: ' + formatTime(data[i].duration)+ '\n';
       }
     }).catch(error => {
       console.error(error);

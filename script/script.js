@@ -31,7 +31,8 @@ function enableButton(button) {
 
 hideButtons();
 
-startButton.addEventListener('click', startPractice);
+startViolinButton.addEventListener('click', () => startPractice('violin'));
+startHarpButton.addEventListener('click', () => startPractice('harp'));
 signupButton.addEventListener('click', () => showForm(signupForm));
 dataButton.addEventListener('click', () => showForm(loginForm));
 
