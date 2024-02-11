@@ -1,15 +1,21 @@
 function togglePractice(on, instument) {
   
     if (on) {
-      showButtons();
-      startViolinButton.removeEventListener('click', () => startPractice(instument));
-      startViolinButton.addEventListener('click', () => endPractice(instument));
-      startHarpButton.removeEventListener('click', () => startPractice(instument));
-      startHarpButton.addEventListener('click', () => endPractice(instument));
-      startTime = new Date().getTime();
+      if (instument === 'violin') {
+        startViolinButton.textContent = 'End Violin Practice';
+        startViolinButton.removeEventListener('click', () => startPractice(instument));
+        startViolinButton.addEventListener('click', () => endPractice(instument));
+        showButtons();
+      }
+      else if (instument === 'harp') {
+       startHarpButton.removeEventListener('click', () => startPractice(instument));
+       startHarpButton.addEventListener('click', () => endPractice(instument));
+       startHarpButton.textContent = 'End Harp Practice';
+      }
+      if (!startTime) {
+        startTime = new Date().getTime();
+      }
       console.log('Practice started at:', startTime);
-      startHarpButton.textContent = 'End Harp Practice';
-      startViolinButton.textContent = 'End Violin Practice';
     } else {
       hideButtons();
       var endTime = new Date().getTime();
@@ -24,14 +30,19 @@ function togglePractice(on, instument) {
       } else {
         document.getElementById('file-content').textContent += 'Practice time too short to write to database.\n';
       }
-      startViolinButton.textContent = 'Start Violin Practice';
-      startHarpButton.textContent = 'Start Harp Practice';
-      startViolinButton.removeEventListener('click', () => endPractice(instument));
-      startViolinButton.addEventListener('click', () => startPractice(instument));
-      startHarpButton.removeEventListener('click', () => endPractice(instument));
-      startHarpButton.addEventListener('click', () => startPractice(instument));
-    }
+
+      if (instument === 'violin') {
+        startViolinButton.textContent = 'Start Violin Practice';
+        startViolinButton.removeEventListener('click', () => endPractice(instument));
+        startViolinButton.addEventListener('click', () => startPractice(instument));
+      }
+      else if (instument === 'harp') {
+        startHarpButton.textContent = 'Start Harp Practice';
+        startHarpButton.removeEventListener('click', () => endPractice(instument));
+        startHarpButton.addEventListener('click', () => startPractice(instument));
+      }
   }
+}
 
 function startPractice(instument) {
     togglePractice(1, instument);
