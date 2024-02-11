@@ -24,38 +24,44 @@ connection.connect(function(err) {
 app.use(express.json());
 
 app.post('/WritePractices', (req, res) => {
-    console.log("Received POST request on /WriteDB, user: ", req.body.id)
+    console.log("Received POST request on /WriteDB, user: ", req.body.username)
     const duration = req.body.duration;
     const date = req.body.date;
-    const user = req.body.user;
+    const user = req.body.username;
     const password = req.body.password;
-    if (validateUser(password, user)) {
-        let id = connection.query("SELECT id FROM users WHERE username = ?", [user], function(err, result) {
-            if (err) throw err;
-            console.log(result);
-            return result[0].id;
-        });
-
-        var sql = "INSERT INTO practices (user_id, date, duration) VALUES (?, ?, ?)";
-        connection.query(sql, [id, date, duration], function(err, result) {
-            if (err) throw err;
-            console.log(result);
-        });
-        res.sendStatus(200);
-    }
-    else {
-        res.sendStatus(403);
-    }
+    validateUser(password, user).then((result) => {
+        if (result) {
+            var sql = "INSERT INTO practices (user_id, date, duration) VALUES (?, ?, ?)";
+            connection.query("SELECT id FROM users WHERE username = ?", [user], function(err, result) {
+                if (err) throw err;
+                console.log(result);
+                const id = result[0].id;
+                connection.query(sql, [id, date, duration], function(err, result) {
+                    if (err) throw err;
+                    console.log(result);
+                });
+            });
+            res.sendStatus(200);
+        } else {
+            res.sendStatus(403);
+        }
+    });
 });
 
 app.post('/ReadPractices', (req, res) => {
-    console.log("Received POST request on /ReadPractices, user: ", req.body.id)
-    const id = req.body.id;
-    var sql = "SELECT * FROM practices WHERE user_id = ?";
-    connection.query(sql, [id], function(err, result) {
-        if (err) throw err;
-        console.log(result);
-        res.json(result);
+    console.log("Received POST request on /ReadPractices, user: ", req.body.username)
+    const user = req.body.username;
+    validateUser(req.body.password, user).then((result) => {
+        if (result) {
+            var sql = "SELECT * FROM practices WHERE user_id = (SELECT id FROM users WHERE username = ?)";
+            connection.query(sql, [user], function(err, result) {
+                if (err) throw err;
+                res.json(result);
+            });
+        }
+        else {
+            res.sendStatus(403);
+        }
     });
 });
 
@@ -82,16 +88,18 @@ app.listen(port, () => {
 
 function validateUser(password, user) {
     let sql = "SELECT password FROM users WHERE username = ?";
-    connection.query(sql, [user], function(err, result) {
-        if (err) throw err;
-        console.log(result);
-        return bcrypt
-            .compare(password, result[0].password)
-            .then(res => {
-                return res;
-            }).catch(err => {
-                console.error(err);
-                return false;
-            });
+    return new Promise((resolve, reject) => {
+        connection.query(sql, [user], function(err, result) {
+            if (err) reject(err);
+            console.log(result);
+            bcrypt
+                .compare(password, result[0].password)
+                .then(res => {
+                    resolve(res);
+                }).catch(err => {
+                    console.error(err);
+                    reject(err);
+                });
+        });
     });
 }

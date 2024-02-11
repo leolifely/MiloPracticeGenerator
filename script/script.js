@@ -1,8 +1,3 @@
-
-
-
-
-
 function hideButtons() {
   document.getElementById('3-scales-button').style.display = 'none';
   document.getElementById('2-book1-review-button').style.display = 'none';
@@ -34,14 +29,11 @@ function enableButton(button) {
   button.disabled = false;
 }
 
-
-
 hideButtons();
-
-
 
 startButton.addEventListener('click', startPractice);
 signupButton.addEventListener('click', () => showForm(signupForm));
+dataButton.addEventListener('click', () => showForm(loginForm));
 
 document.getElementById('3-scales-button').addEventListener('click', () => randomLine('scales.txt', 3));
 document.getElementById('2-book1-review-button').addEventListener('click', () => randomLine('reviews_book1.txt', 2));

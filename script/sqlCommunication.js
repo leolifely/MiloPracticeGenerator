@@ -19,13 +19,13 @@ function writePractices(username, password, duration, date) {
     });
   }
 
-function readPractices(id, password) {
+function readPractices(username, password) {
     fetch('http://leoli.local:3000/ReadPractices', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ user: id, password: password})
+      body: JSON.stringify({ username: username, password: password})
     }).then(response => {
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -33,9 +33,9 @@ function readPractices(id, password) {
       return response.json();
     }).then(data => {
       console.log(data);
-      document.getElementById('file-content').textContent += 'Practice records for ' + id + ':\n';
+      document.getElementById('file-content').textContent += 'Practice records for ' + username + ':\n';
       for (let i = 0; i < data.length; i++) {
-        document.getElementById('file-content').textContent += 'Date: ' + data[i].date + ', Duration: ' + data[i].duration + 'ms\n';
+        document.getElementById('file-content').textContent += 'Date: ' + data[i].date.slice(0, 19).replace('T', ' ').split(' ')[0] + ', Duration: ' + formatTime(data[i].duration)+ '\n';
       }
     }).catch(error => {
       console.error(error);
@@ -59,4 +59,16 @@ function signUp(username, password) {
     }).catch(error => {
       console.error(error);
     });
+}
+
+function formatTime(milliseconds) {
+    const seconds = Math.floor((milliseconds / 1000) % 60);
+    const minutes = Math.floor((milliseconds / 1000 / 60) % 60);
+    const hours = Math.floor((milliseconds / 1000 / 60 / 60) % 24);
+
+    return [
+        hours.toString().padStart(2, "0"),
+        minutes.toString().padStart(2, "0"),
+        seconds.toString().padStart(2, "0")
+    ].join(":");
 }

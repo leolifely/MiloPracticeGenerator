@@ -16,7 +16,7 @@ function togglePractice(on) {
       if (timeDiff > 100) { //REMEMBER TO CHANGE THIS BACK TO 100.000ms
         showForm(loginForm);
         getDetails().then(([username, password]) => {
-          writePractices(username, password, timeDiff, new Date().toISOString());
+          writePractices(username, password, timeDiff, new Date().toISOString().slice(0, 19).replace('T', ' '));
         });
       } else {
         document.getElementById('file-content').textContent += 'Practice time too short to write to database.\n';
